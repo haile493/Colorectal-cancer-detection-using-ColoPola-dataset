@@ -8,6 +8,7 @@ The dataset consists of 572 slices (specimens) with 20,592 images, 284 slices of
 Repository: https://doi.org/10.5281/zenodo.10068031
 
 ![images of normal and malignant colorectal samples](https://github.com/haile493/Colorectal-cancer-detection-using-ColoPola-dataset/blob/main/images/polarimetric%20image.png)
+
 Fig. 36 polarimetric images of (a) normal and (b) malignant colorectal samples in ColoPola dataset
 
 ### Requirements
