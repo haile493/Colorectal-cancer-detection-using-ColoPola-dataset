@@ -7,6 +7,12 @@ We trained and tested two models from scratch and two pretrained models (DenseNe
 The dataset consists of 572 slices (specimens) with 20,592 images. There are 284 cancer samples and 288 normal samples.
 Dataset can download from [Zenodo repository](https://doi.org/10.5281/zenodo.10068031).
 
+[normal](https://github.com/haile493/Colorectal-cancer-detection-using-ColoPola-dataset/blob/main/images/normal.png)
+36 polarimetric images of normal sample
+
+[cancer](https://github.com/haile493/Colorectal-cancer-detection-using-ColoPola-dataset/blob/main/images/cancer.png)
+36 polarimetric images of malignant colorectal sample
+
 ### Requirements
 - Pytorch 1.12.0 + cu116 or higher
 - numpy 1.23.0 or higher
