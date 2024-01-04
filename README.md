@@ -14,8 +14,9 @@ This dataset can download from [Zenodo repository](https://doi.org/10.5281/zenod
 <p align="center">Fig. 2 36 polarimetric images of malignant colorectal sample</p>
 
 ### Requirements
-- Pytorch 1.12.0 + cu116 or higher
-- numpy 1.23.0 or higher
-- torchmetrics 1.2.1
-- scikit-learn 1.1.1
-- albumentations 1.2.0 or higher
+- Python >= 3.9
+- Pytorch >= 1.12.0 + cu116
+- numpy >= 1.23.0
+- torchmetrics >= 1.2.1
+- scikit-learn >= 1.1.1
+- albumentations >= 1.2.0
