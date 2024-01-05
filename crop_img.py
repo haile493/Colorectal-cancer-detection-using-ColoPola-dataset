@@ -4,8 +4,8 @@ import os
 import cv2
 from pathlib import Path
 
-fullsize_path = r"C:\CC_ViHiep\data_fullsize"
-smallsize_path = r"C:\CC_ViHiep\data_small"
+fullsize_path = r"..\CC_ViHiep\data_fullsize"
+smallsize_path = r"..\CC_ViHiep\data_small"
 polarstates = ['HH', 'HL', 'HM', 'HP', 'HR', 'HV',
                'LH', 'LL', 'LM', 'LP', 'LR', 'LV',
                'MH', 'ML', 'MM', 'MP', 'MR', 'MV',
