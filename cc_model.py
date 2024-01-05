@@ -29,7 +29,7 @@ from build_model_2 import CNN, CNN_2, CNN_2_2
 from pretrained_models import load_densenet121, load_efficientnet
 
 # ------ Initial parameters for training model
-root = Path('C:/CC_ViHiep')
+root = Path('../CC_ViHiep')
 image_dir = root / 'data_small'
 list_file_path = root / 'lists'
 log_dir = root / 'logs'
