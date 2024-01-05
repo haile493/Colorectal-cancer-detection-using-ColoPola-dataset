@@ -79,8 +79,7 @@ def train_model(pretrained=False):
         learning_rate = 1e-3  # 1e-5, 1e-3
         weight_decay = 1e-3  # 3e-4, 1e-2
     else:
-        # model = CNN(input_channels=36, num_classes=n_classes)
-        # model = CNN_2(input_channels=36, num_classes=n_classes)
+        # model = CNN(input_channels=36, num_classes=n_classes)        
         model = CNN_2_2(input_channels=36, num_classes=n_classes)  # architecture is same as CNN but uses only Conv layer
         learning_rate = 1e-2  # 1e-5, 1e-3, 1e-2
         weight_decay = 1e-3  # 3e-4, 1e-2, 1e-3, 1e-4
