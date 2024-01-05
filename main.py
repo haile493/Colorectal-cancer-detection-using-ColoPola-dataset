@@ -14,7 +14,7 @@ if __name__ == '__main__':
     train_model(pretrained=True)
     # train_model(pretrained=False)
     
-    # test_trained_model(model=None, fname='valid.txt')
+    test_trained_model(model=None, fname='valid.txt')
     test_trained_model(model=None, fname='test.txt')
 
 
