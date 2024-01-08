@@ -10,11 +10,16 @@ from cc_model import train_model, test_trained_model
 if __name__ == '__main__':
     # crop full size images to 900x900 images (just run once)
     # crop_36_polarstates()
-    
+
+    # Train and evalute the pretrained models
     train_model(pretrained=True)
-    train_model(pretrained=False)
-    
+        
     test_trained_model(model=None, fname='valid.txt')
     test_trained_model(model=None, fname='test.txt')
 
+    # train and evaluate the scratch models
+    train_model(pretrained=False)
+
+    test_trained_model(model=None, fname='valid.txt')
+    test_trained_model(model=None, fname='test.txt')
 
