@@ -13,13 +13,10 @@ if __name__ == '__main__':
 
     # Train and evalute the pretrained models
     train_model(pretrained=True)
+    # train and evaluate the models from scratch
+    # need to modify the test_trained_model function to select the models from scratch
+    # train_model(pretrained=False)
         
     test_trained_model(model=None, fname='valid.txt')
     test_trained_model(model=None, fname='test.txt')
-
-    # train and evaluate the scratch models
-    train_model(pretrained=False)
-
-    test_trained_model(model=None, fname='valid.txt')
-    test_trained_model(model=None, fname='test.txt')
-
+        
