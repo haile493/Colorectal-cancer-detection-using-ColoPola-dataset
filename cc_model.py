@@ -380,8 +380,8 @@ def test_trained_model(model=None, fname='test.txt'):
         # model = CNN(input_channels=36, num_classes=n_classes)
         # model = CNN_2(input_channels=36, num_classes=n_classes)
         # model = CNN_2_2(input_channels=36, num_classes=n_classes)        
-        # model = load_densenet121(in_channels=36, num_classes=n_classes)
-        model = load_efficientnet(in_channels=36, num_classes=n_classes)
+        model = load_densenet121(in_channels=36, num_classes=n_classes)
+        # model = load_efficientnet(in_channels=36, num_classes=n_classes)
 
         model.load_state_dict(torch.load(log_dir / 'checkpoints' / 'best.pth'))        
     
