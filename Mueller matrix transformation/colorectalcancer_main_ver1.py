@@ -1,3 +1,5 @@
+# Calculating Mueller matrix transformation from 36 polarimetric images
+
 import os
 import numpy as np
 import matplotlib
