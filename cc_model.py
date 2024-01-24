@@ -36,7 +36,7 @@ log_dir = root / 'logs'
 result_path = log_dir / 'result'
 
 batch_size = 16  # 8, 16, 32
-num_epochs = 200
+n_epochs = 200
 n_classes = 1  # binary classification
 class_names = ['Normal', 'Colorectal']
 """
@@ -103,7 +103,7 @@ def train_model(pretrained=False):
     # The sanity_check flag breaks a training epoch after one mini-batch,
     # meaning the loops are executed more quickly.
     params_train = {
-        'num_epochs': num_epochs,
+        'num_epochs': n_epochs,
         'optimizer': optimizer,
         'loss_func': criterion.to(device),
         'train': loaders['train'],
