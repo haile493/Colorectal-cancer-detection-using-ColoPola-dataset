@@ -95,7 +95,7 @@ def train_model(pretrained=False):
     criterion = nn.BCEWithLogitsLoss()
 
     # metric function
-    metric = F1Score(task='binary', num_classes=n_classes, average='weighted')
+    metric = F1Score(task='binary', num_classes=n_classes, average='macro')
 
     print('INFO: Initializing early stopping')
     early_stopping = EarlyStopping(patience=20, min_delta=0)    
@@ -435,7 +435,7 @@ def test_trained_model(model=None, fname='test.txt'):
     # f1: 2*tp / (2*tp + fp + fn)    
     print('F1 score: %f' % f1)
 
-    auc_score = roc_auc_score(y_trues_oh, y_preds_prob, average='weighted')
+    auc_score = roc_auc_score(y_trues_oh, y_preds_prob, average='macro')
     print('AUC score: %f' % auc_score)
 
     matrix = confusion_matrix(y_trues, y_preds)
