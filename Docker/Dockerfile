@@ -1,6 +1,6 @@
 ##### Dockerfile #####
 # Use python 3.9
-FROM python:3.9
+FROM python:3.9-slim-buster
 
 # Thiết lập working directory
 WORKDIR /colocancer
