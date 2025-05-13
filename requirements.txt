@@ -122,10 +122,10 @@ threadpoolctl==3.1.0
 tifffile==2022.5.4
 timm==0.5.4
 tinycss2==1.2.1
-torch @ file:///C:/pytorch/pythonProject/torch%20whl/torch-1.12.0%2Bcu116-cp39-cp39-win_amd64.whl
-torchaudio @ file:///C:/pytorch/pythonProject/torch%20whl/torchaudio-0.12.0%2Bcu116-cp39-cp39-win_amd64.whl
+# torch @ file:///C:/pytorch/pythonProject/torch%20whl/torch-1.12.0%2Bcu116-cp39-cp39-win_amd64.whl
+# torchaudio @ file:///C:/pytorch/pythonProject/torch%20whl/torchaudio-0.12.0%2Bcu116-cp39-cp39-win_amd64.whl
 torchmetrics==1.2.1
-torchvision @ file:///C:/pytorch/pythonProject/torch%20whl/torchvision-0.13.0%2Bcu116-cp39-cp39-win_amd64.whl
+# torchvision @ file:///C:/pytorch/pythonProject/torch%20whl/torchvision-0.13.0%2Bcu116-cp39-cp39-win_amd64.whl
 tornado==6.2
 tqdm==4.64.0
 traitlets==5.5.0
