@@ -16,7 +16,8 @@ class single_conv(nn.Module):
         super(single_conv, self).__init__()
 
         self.conv = nn.Sequential(
-            nn.Conv2d(ch_in, ch_out, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, bias=False),            
+            nn.Conv2d(ch_in, ch_out, kernel_size=kernel_size, stride=stride, padding=kernel_size//2, bias=False),
+            # nn.ReLU(inplace=True),
             nn.BatchNorm2d(ch_out),
             nn.ReLU(inplace=True),
             nn.Dropout(p=p),
@@ -62,11 +63,13 @@ class double_conv_block(nn.Module):
         super(double_conv_block, self).__init__()
 
         self.conv = nn.Sequential(
-            nn.Conv2d(ch_in, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),            
+            nn.Conv2d(ch_in, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),
+            # nn.ReLU(inplace=True),
             nn.BatchNorm2d(ch_out),
             nn.ReLU(inplace=True),
             nn.Dropout(p=p),
-            nn.Conv2d(ch_out, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),            
+            nn.Conv2d(ch_out, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),
+            # nn.ReLU(inplace=True),
             nn.BatchNorm2d(ch_out),
             nn.ReLU(inplace=True),
             nn.Dropout(p=p),
@@ -82,15 +85,18 @@ class triple_conv_block(nn.Module):
         super(triple_conv_block, self).__init__()
 
         self.conv = nn.Sequential(
-            nn.Conv2d(ch_in, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),            
+            nn.Conv2d(ch_in, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),
+            # nn.ReLU(inplace=True),
             nn.BatchNorm2d(ch_out),
             nn.ReLU(inplace=True),
             nn.Dropout(p=p),
-            nn.Conv2d(ch_out, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),            
+            nn.Conv2d(ch_out, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),
+            # nn.ReLU(inplace=True),
             nn.BatchNorm2d(ch_out),
             nn.ReLU(inplace=True),
             nn.Dropout(p=p),
-            nn.Conv2d(ch_out, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),            
+            nn.Conv2d(ch_out, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False),
+            # nn.ReLU(inplace=True),
             nn.BatchNorm2d(ch_out),
             nn.ReLU(inplace=True),
             nn.Dropout(p=p),
@@ -188,9 +194,12 @@ class ResBlockSqEx(nn.Module):
     
 
 class conv_mish_SEblock(nn.Module):
-    def __init__(self, ch_in, ch_out, kernel_size=3, p=0.5):
+    def __init__(self, ch_in, ch_out, kernel_size=3, p=0.2):
         super(conv_mish_SEblock, self).__init__()
         self.conv = single_conv_noBN(ch_in=ch_in, ch_out=ch_out, kernel_size=kernel_size)
+        # self.conv = nn.Sequential(
+        #     nn.Conv2d(ch_in, ch_out, kernel_size=kernel_size, stride=1, padding='same', bias=False)
+        # )
         self.mish = nn.Sequential(
             nn.Mish(),
             nn.MaxPool2d(kernel_size=2),
@@ -271,19 +280,25 @@ class CNN(nn.Module):
         self.Conv1 = single_conv(ch_in=input_channels, ch_out=n_filters, p=0)
         self.Conv2 = double_conv_block(ch_in=n_filters, ch_out=n_filters * 2, p=0)
         self.Conv3 = triple_conv_block(ch_in=n_filters * 2, ch_out=n_filters * 4, p=0)
-        self.Conv4 = single_conv(ch_in=n_filters * 4, ch_out=n_filters * 4, p=0)        
+        self.Conv4 = single_conv(ch_in=n_filters * 4, ch_out=n_filters * 4, p=0)
+        # self.Conv4 = triple_conv_block(ch_in=n_filters * 4, ch_out=n_filters * 8, p=0)
 
         self.Avgpool = nn.AdaptiveAvgPool2d(output_size=1)
 
         self.Classifier = nn.Sequential(
             nn.Flatten(),
-            nn.Dropout(0.2),            
+            nn.Dropout(0.2),
+            # nn.Linear(in_features=n_filters * 4, out_features=num_classes),
+            # nn.Linear(in_features=n_filters * 8, out_features=n_filters * 4),
+            # nn.BatchNorm1d(num_features=n_filters * 4),
+            # nn.Linear(in_features=n_filters * 4, out_features=num_classes),
             nn.Linear(in_features=n_filters * 4, out_features=n_filters * 2),
             nn.BatchNorm1d(num_features=n_filters * 2),
             # nn.Dropout(0.2),
             nn.Linear(in_features=n_filters * 2, out_features=num_classes),
         )
-        
+
+        # self.apply(_init_weights)
         self.apply(init_weights)
 
     def forward(self, input):
@@ -293,10 +308,13 @@ class CNN(nn.Module):
         output = self.Maxpool(output)
         output = self.Conv3(output)
         output = self.Maxpool(output)
-        output = self.Conv4(output)        
-        output = self.Avgpool(output)        
+        output = self.Conv4(output)
+        # output = self.Maxpool(output)
+        output = self.Avgpool(output)
+        # print(output.size())
         output = self.Classifier(output)
-        
+        # print(output.size())
+
         return output
 
 
@@ -315,16 +333,23 @@ class CNN_2(nn.Module):
         self.Conv6 = single_conv(ch_in=n_filters * 4, ch_out=n_filters * 4, stride=2, p=0)  # replace Max pooling layer, 28
         self.Conv7 = double_conv_block(ch_in=n_filters * 4, ch_out=n_filters * 8, p=0)
         self.Conv8 = single_conv(ch_in=n_filters * 8, ch_out=n_filters * 8, stride=2, p=0)  # replace Max pooling layer, 14
-        
+        # self.Conv9 = double_conv_block(ch_in=n_filters*8, ch_out=n_filters*16)
+        # self.Conv10 = single_conv(ch_in=n_filters*16, ch_out=n_filters*16, stride=2)  # replace Max pooling layer, 7
+
         self.Conv11 = single_conv(ch_in=n_filters*8, ch_out=n_filters*8, p=0)
         self.Conv12 = single_conv(ch_in=n_filters*8, ch_out=n_filters*8, kernel_size=1, p=0)  # replace Flatten
 
-        self.Conv13 = single_conv(ch_in=n_filters*8, ch_out=num_classes, kernel_size=1, p=0)        
+        self.Conv13 = single_conv(ch_in=n_filters*8, ch_out=num_classes, kernel_size=1, p=0)
+        # self.Avgpool = nn.AvgPool2d(kernel_size=6)
         self.Classifier = nn.Sequential(
             nn.Dropout(p=0.2),
-            self.Conv13,            
+            self.Conv13,
+            # nn.Conv2d(in_channels=n_filters*8, out_channels=num_classes, kernel_size=1, stride=1, padding=1, bias=True),
+            # nn.ReLU(inplace=True),
+            # nn.AvgPool2d(kernel_size=56)
         )
-        
+
+        # self.apply(_init_weights)
         self.apply(init_weights)
 
     def forward(self, input):
@@ -335,15 +360,22 @@ class CNN_2(nn.Module):
         output = self.Conv5(output)
         output = self.Conv6(output)
         output = self.Conv7(output)
-        output = self.Conv8(output)        
+        output = self.Conv8(output)
+        # output = self.Conv9(output)
+        # output = self.Conv10(output)
         output = self.Conv11(output)
-        output = self.Conv12(output)        
+        output = self.Conv12(output)
+        # output = self.Conv13(output)
         output = self.Classifier(output)  # output.shape = B * C * H * W
-        output = nn.functional.avg_pool2d(output, output.size()[2:])  # output.shape = B * C * 1 * 1        
+        output = nn.functional.avg_pool2d(output, output.size()[2:])  # output.shape = B * C * 1 * 1
+        # x = nn.functional.avg_pool2d(x, x.size()[2:])  # with x.shape = B * C * H * W
+        # print(output.size())
+        # output = output.squeeze()  # output.shape = B * C
         # output size is B * C * 1 * 1 with C of 1 because of binary classification
         # so if apply squeeze, output will be only B. Then output need to be applied a reshape function not a squeeze
         output = output.reshape((output.size()[0], output.size()[1]))  # with output.shape = B * 1
-        
+        # print(output.size())
+
         return output
 
 
@@ -368,7 +400,8 @@ class CNN_2_2(nn.Module):
         self.Conv8 = single_conv(ch_in=n_filters * 4, ch_out=n_filters * 4, kernel_size=1, p=0)  # replace Flatten
 
         self.Conv9 = single_conv(ch_in=n_filters * 4, ch_out=n_filters * 2, kernel_size=1, p=0)  # reduce to 256
-        self.Conv10 = single_conv(ch_in=n_filters * 2, ch_out=num_classes, kernel_size=1, p=0)        
+        self.Conv10 = single_conv(ch_in=n_filters * 2, ch_out=num_classes, kernel_size=1, p=0)
+        # self.Avgpool = nn.AvgPool2d(kernel_size=6)
         self.Classifier = nn.Sequential(
             nn.Dropout(p=0.2),
             self.Conv10,
@@ -385,14 +418,110 @@ class CNN_2_2(nn.Module):
         output = self.Conv5(output)
         output = self.Conv6(output)
         output = self.Conv7(output)
-        output = self.Conv8(output)        
-        output = self.Conv9(output)        
-        output = self.Classifier(output)  # output.shape = B * C * H * W        
-        output = nn.functional.avg_pool2d(output, output.size()[2:])  # output.shape = B * C * 1 * 1                
+        output = self.Conv8(output)
+        # print(output.size())
+        output = self.Conv9(output)
+        # print(output.size())
+        output = self.Classifier(output)  # output.shape = B * C * H * W
+        # print(output.size())
+        output = nn.functional.avg_pool2d(output, output.size()[2:])  # output.shape = B * C * 1 * 1
+        # print(output.size())
+        # x = nn.functional.avg_pool2d(x, x.size()[2:])  # with x.shape = B * C * H * W
+        # print(output.size())
+        # output = output.squeeze()  # output.shape = B * C
         # output size is B * C * 1 * 1 with C of 1 because of binary classification
         # so if apply squeeze, output will be only B. Then output need to be applied a reshape function not a squeeze
         output = output.reshape((output.size()[0], output.size()[1]))  # with output.shape = B * 1
-        
+        # print(output.size())
+
+        return output
+
+
+class CNN_3(nn.Module):
+    # Ref: A novel DL based method for COVID-19 detection from CT image, Biomedical Signal Processing and Control
+    def __init__(self, input_channels=3, num_classes=10, n_filters=128):
+        super(CNN_3, self).__init__()
+
+        self.Conv1 = conv_mish_SEblock(ch_in=input_channels, ch_out=n_filters, kernel_size=5)
+        self.Conv2 = conv_mish_SEblock(ch_in=n_filters, ch_out=n_filters, kernel_size=5)
+        self.Conv3 = conv_mish_SEblock(ch_in=n_filters, ch_out=n_filters * 2, kernel_size=5)
+        self.Conv4 = conv_mish_SEblock(ch_in=n_filters * 2, ch_out=n_filters * 4, kernel_size=5)
+        # add 1 conv_mish_SEblock layer
+        # self.Conv5 = conv_mish_SEblock(ch_in=n_filters * 4, ch_out=n_filters * 8, kernel_size=5)
+        self.Conv6 = single_conv_noBN(ch_in=n_filters * 4, ch_out=n_filters * 8, kernel_size=5)
+        # self.Conv5 = single_conv_mish(ch_in=n_filters * 4, ch_out=n_filters * 8, kernel_size=5)
+        # self.Conv6 = single_conv_noBN(ch_in=n_filters * 8, ch_out=n_filters * 16, kernel_size=5)
+
+        self.Avgpool = nn.AdaptiveAvgPool2d(output_size=1)
+        self.Classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Dropout(0.2),
+            # nn.Linear(in_features=50176, out_features=n_filters * 8),  # 14*14*256 --> 256
+            # nn.BatchNorm1d(n_filters * 8)
+            # nn.Dropout(0.2),
+            nn.Linear(in_features=n_filters * 8, out_features=num_classes)
+        )
+
+        # self.apply(_init_weights)
+        self.apply(init_weights)
+
+    def forward(self, input):
+        output = self.Conv1(input)
+        # print(output.size())
+        output = self.Conv2(output)
+        output = self.Conv3(output)
+        output = self.Conv4(output)
+        # output = self.Conv5(output)
+        output = self.Conv6(output)
+        # print(output.size())
+        output = self.Avgpool(output)
+        # print(output.size())
+        output = self.Classifier(output)
+        # print(output.size())
+
+        return output
+
+
+class CNN_4(nn.Module):
+    # Ref: A novel DL based method for COVID-19 detection from CT image, Biomedical Signal Processing and Control
+    # Replaced Mish activation by Relu activation
+    def __init__(self, input_channels=3, num_classes=10, n_filters=128):
+        super(CNN_4, self).__init__()
+
+        self.Conv1 = conv_SEblock(ch_in=input_channels, ch_out=n_filters, kernel_size=5)
+        self.Conv2 = conv_SEblock(ch_in=n_filters, ch_out=n_filters, kernel_size=5)
+        self.Conv3 = conv_SEblock(ch_in=n_filters, ch_out=n_filters * 2, kernel_size=5)
+        self.Conv4 = conv_SEblock(ch_in=n_filters * 2, ch_out=n_filters * 4, kernel_size=5)
+        self.Conv5 = single_conv_noBN(ch_in=n_filters * 4, ch_out=n_filters * 8, kernel_size=5)
+        # self.Conv5 = single_conv(ch_in=n_filters * 4, ch_out=n_filters * 8, kernel_size=5)
+        # self.Conv5 = conv_SEblock(ch_in=n_filters * 4, ch_out=n_filters * 8, kernel_size=5)
+        # self.Conv6 = single_conv_noBN(ch_in=n_filters * 8, ch_out=n_filters * 16, kernel_size=5)
+
+        self.Avgpool = nn.AdaptiveAvgPool2d(output_size=1)
+        self.Classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Dropout(0.2),
+            # nn.Linear(in_features=50176, out_features=n_filters * 8),  # 14*14*256 --> 256
+            # nn.BatchNorm1d(n_filters * 8)
+            # nn.Dropout(0.2),
+            nn.Linear(in_features=n_filters * 8, out_features=num_classes)
+        )
+
+        # self.apply(_init_weights)
+        self.apply(init_weights)
+
+    def forward(self, input):
+        output = self.Conv1(input)
+        output = self.Conv2(output)
+        output = self.Conv3(output)
+        output = self.Conv4(output)
+        output = self.Conv5(output)
+        # output = self.Conv6(output)
+        # print(output.size())
+        output = self.Avgpool(output)
+        output = self.Classifier(output)
+        # print(output.size())
+
         return output
 
 
