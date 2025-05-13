@@ -3,7 +3,7 @@
 FROM python:3.9-slim-buster
 
 # Thiết lập working directory
-WORKDIR /colocancer
+WORKDIR /coloncancer
 
 # Copy file requirements.txt vào trong image
 COPY requirements_short.txt .
