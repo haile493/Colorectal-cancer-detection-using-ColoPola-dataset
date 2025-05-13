@@ -1,6 +1,6 @@
 # Requirements
 Python >= 3.9
-Pytorch >= 1.12.0 + cu116
+# Pytorch >= 1.12.0 + cu116
 numpy >= 1.23.0
 torchmetrics >= 1.2.1
 scikit-learn >= 1.1.1
