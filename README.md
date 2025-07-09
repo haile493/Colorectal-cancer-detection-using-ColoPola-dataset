@@ -25,7 +25,7 @@ This dataset can download from [Zenodo repository](https://doi.org/10.5281/zenod
 1. Download the ColoPola dataset that contains all samples with train.txt and test.txt files
 2. Split the training set (list of samples in train.txt) into train and validation sets at any desired ratio. Keep the testing set (test.txt) for evaluating the trained model(s) as unseen data.
 3. Install packages in requirements_short.txt
-4. Modify cc_model.py to select one of three models from scratch and one of two pretrained models. Then make sure the paths for train.txt and val.txt
+4. Modify '''cc_model.py''' to select one of three models from scratch and one of two pretrained models. Then make sure the paths for train.txt and val.txt
 5. Run main.py with pretrained = True or False. Then set the paths for val.txt and test.txt to evaluate the trained models.
 
 ### Notes
