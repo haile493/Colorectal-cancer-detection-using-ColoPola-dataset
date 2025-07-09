@@ -86,8 +86,8 @@ def train_model(pretrained=False):
         weight_decay = 1e-3  # 3e-4, 1e-2, 1e-3, 1e-4
     print(model)
     
-    optimizer = Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)  # 3e-4=0.0003
-    # optimizer = AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
+    # optimizer = Adam(model.parameters(), lr=learning_rate, weight_decay=weight_decay)  # 3e-4=0.0003
+    optimizer = AdamW(model.parameters(), lr=learning_rate, weight_decay=weight_decay)
         
     # LRScheduler class uses ReduceLROnPlateau
     scheduler = LRScheduler(optimizer=optimizer, patience=10, min_lr=1e-6, factor=0.1)
