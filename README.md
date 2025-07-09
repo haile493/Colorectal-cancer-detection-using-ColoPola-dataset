@@ -29,7 +29,7 @@ This dataset can download from [Zenodo repository](https://doi.org/10.5281/zenod
 5. Run **main.py** with pretrained = True or False. Then set the paths for val.txt and test.txt to evaluate the trained models.
 
 ### Notes
-- In this study, the input shape is **(224, 224, 36)** with 36 channels that are 36 polarized images of each slice. Please read **cc_dataset.py** to know how to make the input data.
+- In this study, the input shape is **(224, 224, 36)** with 36 channels that are 36 polarized images of each slice (see Fig. 1 and 2). Please read **cc_dataset.py** to know how to make the input data.
 - The architectures of five models are in build_model_2.py for CNN and CNN_2, efficientformer_v2.py for EfficientFormerV2, and pretrained_models.py for DenseNet121 and EfficientNetV2.
 
 
