@@ -31,5 +31,4 @@ This dataset can download from [Zenodo repository](https://doi.org/10.5281/zenod
 ### Notes
 - In this study, the input shape is **(224, 224, 36)** with 36 channels that are 36 polarized images of each slice (see Fig. 1 and 2). Please read **cc_dataset.py** to know how to make the input data.
 - The architectures of five models are in build_model_2.py for CNN and CNN_2, efficientformer_v2.py for EfficientFormerV2, and pretrained_models.py for DenseNet121 and EfficientNetV2.
-
-
+- Supporting data with the weights of five models can download from [GigaDB Dataset](https://doi.org/10.5524/102763)
